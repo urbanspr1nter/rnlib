@@ -129,3 +129,4 @@ vector<string> rn::CsvReader::_toVector(string line) {
 
     return result;
 }
+
