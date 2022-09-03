@@ -3,6 +3,33 @@
 //
 #include "rn.h"
 
+int rn::save_wstr_to_file(std::string filename, std::wstring data) {
+    wofstream of {filename};
+    if (!of) {
+        return 1;
+    }
+
+    of << data;
+    of << L"\n";
+
+    of.close();
+
+    return 0;
+}
+
+int rn::save_str_to_file(std::string filename, std::string data) {
+    ofstream of {filename};
+    if (!of) {
+        return 1;
+    }
+
+    of << data << "\n";
+
+    of.close();
+
+    return 0;
+}
+
 bool rn::str_is_eq(const string first, const string second) {
     return first.compare(second) == 0;
 }
@@ -22,6 +49,48 @@ vector<string> rn::str_split(string str, char delimiter) {
     }
 
     result.push_back(word);
+
+    return result;
+}
+
+bool rn::isWhitespace(char c) {
+    return c == ' ' || c == '\t' || c == '\n' || c == '\r';
+}
+
+wstring rn::wstr_trim(wstring str) {
+    wstring result;
+
+    size_t start = 0;
+    size_t end = 0;
+    for (size_t i = 0; i < str.length(); i++) {
+        wchar_t c = str.at(i);
+
+        if (isWhitespace(c)) {
+            continue;
+        } else {
+            start = i;
+            break;
+        }
+    }
+
+    for (size_t i = str.length() - 1; i > 0; i--) {
+        wchar_t c = str.at(i);
+        if (isWhitespace(c)) {
+            continue;
+        } else {
+            end = i;
+            break;
+        }
+    }
+
+    if (start >= str.length() || start > end) {
+        return result;
+    }
+
+    for (size_t i = start; i <= end; i++) {
+        wchar_t c = str.at(i);
+        result += c;
+    }
 
     return result;
 }

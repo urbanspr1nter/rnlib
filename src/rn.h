@@ -13,8 +13,15 @@
 
 using namespace std;
 namespace rn {
+    // Handy file operations
+    int save_wstr_to_file(string filename, wstring data);
+    int save_str_to_file(string filename, string data);
+
+    // String stuff
     bool str_is_eq(string first, string second);
     vector<string> str_split(string str, char delimiter);
+    wstring wstr_trim(wstring str);
+    bool isWhitespace(char c);
     map<string, string> vec_to_map(vector<string> keys, vector<string> values);
 
     class CsvReader {
