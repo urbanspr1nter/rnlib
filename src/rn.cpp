@@ -3,6 +3,44 @@
 //
 #include "rn.h"
 
+string rn::read_str_from_file(std::string filename) {
+    ifstream inf { filename };
+    string result;
+
+    if (!inf) {
+        return result;
+    }
+
+    while (inf) {
+        string line;
+        getline(inf, line);
+        result += line;
+    }
+
+    inf.close();
+
+    return result;
+}
+
+wstring rn::read_wstr_from_file(std::string filename) {
+    wifstream inf { filename };
+    wstring result;
+
+    if (!inf) {
+        return result;
+    }
+
+    while (inf) {
+        wstring line;
+        getline(inf, line);
+        result += line;
+    }
+
+    inf.close();
+
+    return result;
+}
+
 int rn::save_wstr_to_file(std::string filename, std::wstring data) {
     wofstream of {filename};
     if (!of) {
@@ -10,7 +48,6 @@ int rn::save_wstr_to_file(std::string filename, std::wstring data) {
     }
 
     of << data;
-    of << L"\n";
 
     of.close();
 
@@ -23,7 +60,7 @@ int rn::save_str_to_file(std::string filename, std::string data) {
         return 1;
     }
 
-    of << data << "\n";
+    of << data;
 
     of.close();
 

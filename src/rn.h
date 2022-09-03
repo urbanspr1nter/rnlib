@@ -14,6 +14,8 @@
 using namespace std;
 namespace rn {
     // Handy file operations
+    string read_str_from_file(string filename);
+    wstring read_wstr_from_file(string filename);
     int save_wstr_to_file(string filename, wstring data);
     int save_str_to_file(string filename, string data);
 
