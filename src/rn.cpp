@@ -8,7 +8,7 @@ string rn::read_str_from_file(std::string filename) {
     string result;
 
     if (!inf) {
-        return result;
+        throw runtime_error{"An error occurred while trying to read the file."};
     }
 
     while (inf) {
@@ -27,7 +27,7 @@ wstring rn::read_wstr_from_file(std::string filename) {
     wstring result;
 
     if (!inf) {
-        return result;
+        throw runtime_error {"An error occurred while trying to read the file."};
     }
 
     while (inf) {
@@ -41,30 +41,33 @@ wstring rn::read_wstr_from_file(std::string filename) {
     return result;
 }
 
-int rn::save_wstr_to_file(std::string filename, std::wstring data) {
-    wofstream of {filename};
-    if (!of) {
-        return 1;
-    }
-
-    of << data;
-
-    of.close();
-
-    return 0;
-}
-
-int rn::save_str_to_file(std::string filename, std::string data) {
+void rn::save_str_to_file(std::string filename, std::string data, int* return_status) {
     ofstream of {filename};
     if (!of) {
-        return 1;
+        *return_status = 1;
+        throw runtime_error{"An error occurred while attempting to save the file."};
     }
 
     of << data;
 
     of.close();
 
-    return 0;
+    *return_status = 0;
+}
+
+void rn::save_wstr_to_file(std::string filename, std::wstring data, int* return_status) {
+    wofstream of {filename};
+
+    if (!of) {
+        *return_status = 1;
+        throw runtime_error{"An error occurred while attempting to save the file."};
+    }
+
+    of << data;
+
+    of.close();
+
+    *return_status = 0;
 }
 
 bool rn::str_is_eq(const string first, const string second) {
@@ -94,11 +97,10 @@ bool rn::isWhitespace(char c) {
     return c == ' ' || c == '\t' || c == '\n' || c == '\r';
 }
 
-wstring rn::wstr_trim(wstring str) {
+wstring rn::wstr_l_trim(const wstring str) {
     wstring result;
 
     size_t start = 0;
-    size_t end = 0;
     for (size_t i = 0; i < str.length(); i++) {
         wchar_t c = str.at(i);
 
@@ -110,6 +112,22 @@ wstring rn::wstr_trim(wstring str) {
         }
     }
 
+    if (start >= str.length()) {
+        return result;
+    }
+
+    for (size_t i = start; i < str.length(); i++) {
+        wchar_t c = str.at(i);
+        result += c;
+    }
+
+    return result;
+}
+
+wstring rn::wstr_r_trim(const wstring str) {
+    wstring result;
+
+    size_t end = 0;
     for (size_t i = str.length() - 1; i > 0; i--) {
         wchar_t c = str.at(i);
         if (isWhitespace(c)) {
@@ -120,12 +138,35 @@ wstring rn::wstr_trim(wstring str) {
         }
     }
 
-    if (start >= str.length() || start > end) {
+    if (end <= 0) {
         return result;
     }
 
-    for (size_t i = start; i <= end; i++) {
+    for (size_t i = 0; i <= end; i++) {
         wchar_t c = str.at(i);
+        result += c;
+    }
+
+    return result;
+}
+
+wstring rn::wstr_trim(const wstring str) {
+    wstring result;
+
+    result = wstr_l_trim(str);
+    result = wstr_r_trim(result);
+
+    return result;
+}
+
+wstring rn::wstr_collapse_repeating(const wstring str) {
+    wstring result;
+
+    for (size_t i = 0; i < str.length(); i++) {
+        wchar_t c = str.at(i);
+        if (isWhitespace(c) && i > 0 && isWhitespace(str.at(i - 1))) {
+            continue;
+        }
         result += c;
     }
 

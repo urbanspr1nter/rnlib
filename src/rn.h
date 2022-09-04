@@ -13,17 +13,79 @@
 
 using namespace std;
 namespace rn {
-    // Handy file operations
+    /**
+     * Reads a file and returns a string representation
+     * of the contents.
+     * @param filename
+     * @return
+     */
     string read_str_from_file(string filename);
-    wstring read_wstr_from_file(string filename);
-    int save_wstr_to_file(string filename, wstring data);
-    int save_str_to_file(string filename, string data);
 
-    // String stuff
+    /**
+     * Reads a file and returns a wide-character string
+     * representation of the contents.
+     * @param filename
+     * @return
+     */
+    wstring read_wstr_from_file(string filename);
+
+    /**
+     * Saves string data to a specified file.
+     * @param filename
+     * @param data
+     * @param return_status
+     */
+    void save_str_to_file(string filename, string data, int* return_status);
+
+    /**
+     * Saves wide-character stirng data to a specified file.
+     * @param filename
+     * @param data
+     * @param return_status
+     */
+    void save_wstr_to_file(string filename, wstring data, int* return_status);
+
+    /**
+     * Checks to see if the character is a whitespace character.
+     * White space is considered to be: space, tab, carriage return, new line
+     * @param c
+     * @return
+     */
+    bool isWhitespace(char c);
+
+    /**
+     * Trims leading spaces off a wide-character string.
+     * @param str
+     * @return
+     */
+    wstring wstr_l_trim(wstring str);
+
+    /**
+     * Trims trailing spaces off a wide-character string.
+     * @param str
+     * @return
+     */
+    wstring wstr_r_trim(wstring str);
+
+    /**
+     * Trims both leading and trailing spaces off from a wide-character string.
+     * @param str
+     * @return
+     */
+    wstring wstr_trim(wstring str);
+
+    /**
+     * Collapse repeating spaces from a string. For example, 3 consecutive whitepace will
+     * just result in a single whitespace.
+     * @param str
+     * @return
+     */
+    wstring wstr_collapse_repeating(wstring str);
+
     bool str_is_eq(string first, string second);
     vector<string> str_split(string str, char delimiter);
-    wstring wstr_trim(wstring str);
-    bool isWhitespace(char c);
+
+
     map<string, string> vec_to_map(vector<string> keys, vector<string> values);
 
     class CsvReader {
